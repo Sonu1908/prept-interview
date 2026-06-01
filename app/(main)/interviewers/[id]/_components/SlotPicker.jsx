@@ -285,6 +285,7 @@ export default function SlotPicker({
             </div>
             <div>
               <h1>sonu niga</h1>
+              <h2>Anjali Singh</h2>
             </div>
           </div>
         )}
