@@ -283,10 +283,6 @@ export default function SlotPicker({
                 {loading ? "Creating call…" : "Confirm →"}
               </Button>
             </div>
-            <div>
-              <h1>sonu niga</h1>
-              <h2>Anjali Singh</h2>
-            </div>
           </div>
         )}
       </div>
