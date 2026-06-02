@@ -278,7 +278,7 @@ export default function SlotPicker({
                 size="sm"
                 className="flex-1"
                 disabled={loading}
-                onClick={handleConfirm}
+                onClick ={handleConfirm}
               >
                 {loading ? "Creating call…" : "Confirm →"}
               </Button>
