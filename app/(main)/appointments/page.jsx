@@ -4,7 +4,8 @@ import { CalendarDays } from 'lucide-react';
 import React from 'react'
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
-import AppointmentCard from '@/components/AppointmentCard';
+import { AppointmentCard } from '@/components/AppointmentCard';
+
 
 const MyAppointmentsPage = async () => {
 
