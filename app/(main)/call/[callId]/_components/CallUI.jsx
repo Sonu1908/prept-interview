@@ -1,7 +1,9 @@
 "use client";
 
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CallControls, CallingState, SpeakerLayout, StreamTheme, useCall, useCallStateHooks } from '@stream-io/video-react-sdk';
+import { MessageSquare, Sparkles } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react'
 import { useCreateChatClient } from 'stream-chat-react';
 
@@ -20,7 +22,7 @@ const CallUI = ({
   const call = useCall();
   const callingState = useCallCallingState();
 
-  const [activeTab, setActiveTab] = useState("chat");
+  // const [activeTab, setActiveTab] = useState("chat");
 
   const chatClient = useCreateChatClient({
     apiKey,
@@ -38,9 +40,9 @@ const CallUI = ({
       if (call) {
         const isRecording = call.state?.recording;
         if (isRecording) {
-          await call.stopRecording().catch(() => {});
+          await call.stopRecording().catch(() => { });
         }
-        await call.leave().catch(() => {});
+        await call.leave().catch(() => { });
       }
     } finally {
       onLeave();
@@ -50,26 +52,26 @@ const CallUI = ({
   const [chatChannel, setChatChannel] = useState(null);
 
   useEffect
-  (() => {
-    if (!chatClient) return;
+    (() => {
+      if (!chatClient) return;
 
-    const channel = chatClient.channel("messaging", callId, {
-      name: "Interview Chat",
-      members: [
-        booking.interviewer.clerkUserId,
-        booking.interviewee.clerkUserId,
-      ],
-    });
+      const channel = chatClient.channel("messaging", callId, {
+        name: "Interview Chat",
+        members: [
+          booking.interviewer.clerkUserId,
+          booking.interviewee.clerkUserId,
+        ],
+      });
 
-    channel
-      .watch()
-      .then(() => setChatChannel(channel))
-      .catch(console.error);
+      channel
+        .watch()
+        .then(() => setChatChannel(channel))
+        .catch(console.error);
 
-    return () => {
-      channel.stopWatching().catch(() => { });
-    };
-  }, [chatClient, callId, booking]);
+      return () => {
+        channel.stopWatching().catch(() => { });
+      };
+    }, [chatClient, callId, booking]);
 
   if (callingState === CallingState.LEFT) {
     return (
@@ -107,12 +109,25 @@ const CallUI = ({
 
       {/* Body: video + side panel */}
       <div className='flex flex-1 min-h-0'>
-         {/* ── LEFT: Video ── */}
-         <div className="flex flex-col flex-1 min-w-0">
+        {/* ── LEFT: Video ── */}
+        <div className="flex flex-col flex-1 min-w-0">
           <StreamTheme>
             <SpeakerLayout participantBarPosition="bottom" />
             <CallControls onLeave={handleLeave} />
           </StreamTheme>
+        </div>
+
+        {/* ── RIGHT: Chat / AI panel ── */}
+        <div className='w-85 shrink-0 flex flex-col border-l border-white/8 bg-[#0a0a0b]'>
+          {/* Tab Switcher */}
+          <Tabs defaultValue="chat">
+            <TabsList variant='line' className="w-full">
+              <TabsTrigger value="chat" className={"w-1/2"}> <MessageSquare size={13} /> Chat </TabsTrigger>
+              <TabsTrigger value="questions" className={"w-1/2"}><Sparkles size={13} /> Ai Question </TabsTrigger>
+            </TabsList>
+            <TabsContent value="chat">Make changes to your account here.</TabsContent>
+            <TabsContent value="questions">Change your password here.</TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>
