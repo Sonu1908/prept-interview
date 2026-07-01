@@ -3,7 +3,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CallControls, CallingState, SpeakerLayout, StreamTheme, useCall, useCallStateHooks } from '@stream-io/video-react-sdk';
-import { MessageSquare, Sparkles } from 'lucide-react';
+import { Loader2, MessageSquare, Sparkles } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react'
 import { Channel, Chat, MessageComposer, MessageList, useCreateChatClient, Window } from 'stream-chat-react';
 import AIQuestionsPanel from './AIQuestionsPanel';
@@ -123,13 +123,31 @@ const CallUI = ({
         {/* ── RIGHT: Chat / AI panel ── */}
         <div className='w-85 shrink-0 flex flex-col border-l border-white/8 bg-[#0a0a0b]'>
           {/* Tab Switcher */}
-          <Tabs defaultValue="chat">
+          <Tabs defaultValue="chat" className="h-full">
             <TabsList variant='line' className="w-full">
               <TabsTrigger value="chat" className={"w-1/2"}> <MessageSquare size={13} /> Chat </TabsTrigger>
-              <TabsTrigger value="questions" className={"w-1/2"}><Sparkles size={13} /> Ai Question </TabsTrigger>
+              {true && <TabsTrigger value="questions" className={"w-1/2"}><Sparkles size={13} /> Ai Question </TabsTrigger>}
             </TabsList>
-            <TabsContent value="chat">Make changes to your account here.</TabsContent>
-            <TabsContent value="questions">Change your password here.</TabsContent>
+
+            <TabsContent value="chat">
+              {chatClient && chatChannel ? (
+                <Chat client={chatClient} theme="str-chat__theme-dark">
+                  <Channel channel={chatChannel}>
+                    <Window>
+                      <MessageList />
+                      <MessageComposer focus />
+                    </Window>
+                  </Channel>
+                </Chat>
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <Loader2 size={18} className="text-stone-600 animate-spin" />
+                </div>
+              )}
+            </TabsContent>
+            <TabsContent value="questions">
+              <AIQuestionsPanel categories={booking.categories} />
+            </TabsContent>
           </Tabs>
         </div>
       </div>
