@@ -34,7 +34,9 @@ export default function CallRoom({
     if (joinedRef.current) return;
     joinedRef.current = true;
 
-    const client = new StreamVideoClient({
+
+    //A StreamVideoClient already exists 
+    const client = StreamVideoClient.getOrCreateInstance({
       apiKey,
       user: {
         id: currentUser.id,
@@ -56,8 +58,8 @@ export default function CallRoom({
       .catch(console.error);
 
     return () => {
-      callInstance.leave().catch(() => {});
-      client.disconnectUser().catch(() => {});
+      callInstance.leave().catch(() => { });
+      // client.disconnectUser().catch(() => { });
       clientRef.current = null;
       joinedRef.current = false; // reset so hot reload works
     };
