@@ -5,7 +5,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CallControls, CallingState, SpeakerLayout, StreamTheme, useCall, useCallStateHooks } from '@stream-io/video-react-sdk';
 import { MessageSquare, Sparkles } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react'
-import { useCreateChatClient } from 'stream-chat-react';
+import { Channel, Chat, MessageComposer, MessageList, useCreateChatClient, Window } from 'stream-chat-react';
+import AIQuestionsPanel from './AIQuestionsPanel';
+
+
 
 const CallUI = ({
   callId,
