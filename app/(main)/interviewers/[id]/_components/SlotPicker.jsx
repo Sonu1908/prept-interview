@@ -17,7 +17,7 @@ import {
 } from "@/lib/helpers";
 
 const SLOT_DURATION_MINUTES = 45;
-const DAYS_AHEAD = 7;
+const DAYS_AHEAD = 10;
 
 export default function SlotPicker({
   interviewer,
