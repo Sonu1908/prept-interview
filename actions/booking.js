@@ -29,11 +29,13 @@ export const getInterviewerProfile = async (interviewerId) => {
         bio: true,
         categories: true,
         creditRate: true,
+        
         availabilities: {
           where: { status: "AVAILABLE" },
           select: { startTime: true, endTime: true },
           take: 1,
         },
+        
         bookingsAsInterviewer: {
           where: { status: "SCHEDULED" },
           select: { startTime: true, endTime: true },
